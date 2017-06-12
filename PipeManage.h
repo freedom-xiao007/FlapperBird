@@ -11,6 +11,7 @@ public:
 
 	void manage();
 	void create();
+	void pipeClear();
 	std::vector<Pipe> getPipes();
 
 private:

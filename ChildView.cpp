@@ -68,15 +68,16 @@ void CChildView::OnPaint()
 
 	background.Draw(cacheDC, windowsSize);
 
-	//像素鸟的绘制
 	if(!isKeyUP) {
 		bird.down();
+		pipesManage->manage();//水管的管理（第一次生成和移动）
 	}
 	isKeyUP = false;
+
+	//像素鸟的绘制
 	birdImage.Draw(cacheDC, 50, bird.getPos(), 25, 25);
 	
 	//水管的绘制
-	pipesManage->manage();//水管的管理（第一次生成和移动）
 	std::vector<Pipe> pipes = pipesManage->getPipes(); 
 	for(int i=0; i < pipes.size(); i++) {
 		int pipePos = pipes[i].getPos();
@@ -90,6 +91,37 @@ void CChildView::OnPaint()
 	}
 
 	pdc->BitBlt(0, 0, windowsSize.Width(), windowsSize.Height(), &cacheDC, 0, 0, SRCCOPY);
+
+	//碰撞检测
+	//如果鸟在最下方和最上面则死亡
+	if(bird.getPos() <= 0) {
+		reset();
+	}
+	else if(bird.getPos() >= windowsSize.Height()) {
+		reset();
+	}
+	else {
+		//分别检测每跟水管
+		for(int i=0; i < pipes.size(); i++) {
+			int pipePos = pipes[i].getPos();
+			int topHeight = pipes[i].getTopHeight()+25;
+			int bottomHeight = pipes[i].getBottomHeight()+25;
+
+			//首先水管位置与鸟接触
+			if(pipePos >= 50 && pipePos <= 75) {
+				//如果与上方水管想撞
+				if(bird.getPos() <= topHeight) {
+					reset();
+					break;
+				}
+				//如果与下方水管相撞
+				else if(bird.getPos() >= windowsSize.Height()-bottomHeight) {
+					reset();
+					break;
+				}
+			}
+		}
+	}
 
 	//在绘制完以后，时窗口区有效
 	ValidateRect(&windowsSize);
@@ -168,4 +200,8 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	CWnd::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+void CChildView::reset() {
+	pipesManage->pipeClear();
 }

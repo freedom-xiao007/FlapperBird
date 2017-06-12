@@ -30,6 +30,9 @@ public:
 	Bird bird;
 	bool isKeyUP;//判断绘制之前是否按建
 
+	bool collisionDetect(CRect bird, std::vector<Pipe> pipes);
+	void reset();
+
 // 操作
 public:
 	void transparentPNG(CImage *png);  

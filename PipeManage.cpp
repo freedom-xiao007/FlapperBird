@@ -60,3 +60,7 @@ void PipeManage::create() {
 std::vector<Pipe> PipeManage::getPipes() {
 	return pipes;
 }
+
+void PipeManage::pipeClear() {
+	pipes.clear();
+}
