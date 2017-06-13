@@ -7,6 +7,7 @@ public:
 
 	void up();
 	void down();
+	void reset();
 	int getPos();
 
 private:

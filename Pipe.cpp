@@ -18,6 +18,8 @@ Pipe::Pipe(int pos, int wh, int preH)
 		srand((unsigned)time(NULL)+1000);
 		topHeight = rand()%(wh-125);
 	}
+	//srand(0);
+	//topHeight = rand()%(wh-125);
 	bottomHeight = (wh-125) - topHeight;
 
 	//CString imagePath;
