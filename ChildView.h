@@ -20,6 +20,17 @@ public:
 
 // 特性
 public:
+	//获取距离小鸟最近的水管
+	void getNearest();
+	//碰撞检测
+	bool collisionDetect();
+	//自动控制游戏
+	void autoPlay();
+	//重置游戏
+	void reset();
+	//更新 Q 矩阵
+	void updateQ(bool isLive);
+
 	CImage birdImage;
 	CImage background;
 	CImage topPipe, bottomPipe, pipe;
@@ -31,12 +42,12 @@ public:
 	Bird bird;
 	bool isFirstDraw;//是否是第一次绘制
 	bool isKeyUP;//判断绘制之前是否按建
-
-	bool collisionDetect(CRect bird, std::vector<Pipe> pipes);
-	void reset();
+	std::vector<Pipe> pipes;//保存存在的所以水管
+	bool isHaveNearestPipe;//是否存在最近的水管
+	int nearestX, nearestY;//距离小鸟最近的水管坐标
 
 	//Q矩阵
-	float qLearning[400][600][2];//分别代表与最近水管的垂直距离、水平距离和两种动作
+	float qLearning[500][1000][2];//分别代表与最近水管的垂直距离、水平距离和两种动作
 	float argment;//学习参数
 	int reward , failed;//奖励和惩罚值
 	int currentAction, previousAction;//现在和过去采取的行动
@@ -65,5 +76,6 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnClose();
 };
 

@@ -3,7 +3,7 @@
 
 
 Bird::Bird(void)
-	:pos(250)
+	:pos(225)
 {
 }
 
@@ -21,7 +21,7 @@ void Bird::down() {
 }
 
 void Bird::reset() {
-	pos = 250;
+	pos = 225;
 }
 
 int Bird::getPos() {
